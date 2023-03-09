@@ -12,12 +12,13 @@ namespace AssignmentDatabase
             {
 
                 Console.Clear();
-                Console.WriteLine("1. Add new ticket");
-                Console.WriteLine("2. ListAll ");
-                Console.WriteLine("3. List Specefic");
-                Console.WriteLine("4. Update Status");
-                Console.WriteLine("5. ");
-                Console.Write("Välj ett av följande alternativ (1-4): ");
+                Console.WriteLine("[1] Add new ticket");
+                Console.WriteLine("[2]  List All Tickets in database ");
+                Console.WriteLine("[3]  List a specific Ticket in database");
+                Console.WriteLine("[4]  Update Statos on a Ticket");
+                Console.WriteLine("[5]  Add A comment to ticket ");
+                Console.WriteLine("[6]  Delete a Ticket");
+                Console.Write("Choose an option:  ");
 
                 switch (Console.ReadLine())
                 {
@@ -44,6 +45,11 @@ namespace AssignmentDatabase
                     case "5":
                         Console.Clear();
                          await menu.AddNewCommentAsync();
+                        break;
+
+                    case "6":
+                        Console.Clear();
+                        await menu.DeleteATicketAsync();
                         break;
                 }
             }

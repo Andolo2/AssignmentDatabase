@@ -37,10 +37,17 @@ namespace AssignmentDatabase.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<TicketEntity>()
+                .Property(x => x.Status)
+                .HasDefaultValue("new");
         }
 
 
         // Override that add CreatedDate and ModifiedDate when the User uses SaveChangesAsync() method.
+        // Used this as the base: https://www.entityframeworktutorial.net/faq/set-created-and-modified-date-in-efcore.aspx
+        // Had to add some paremeters to make it work. 
+        // The task overrides the SavechangesAsync method and add´s datetime then automaticlly when the method is called. 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
             var entries = ChangeTracker

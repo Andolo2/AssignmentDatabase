@@ -1,6 +1,7 @@
 ﻿using AssignmentDatabase.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,11 +48,11 @@ namespace AssignmentDatabase.Services
             Console.Write("Text: ");
             user.TicketText = Console.ReadLine() ?? "";
 
-            Console.Write("Status: ");
-            user.Status = Console.ReadLine() ?? "";
+            //Console.Write("Status: ");
+            //user.Status = Console.ReadLine() ?? "";
 
-            //Console.Write("Comment: ");
-            //user.Comment = Console.ReadLine() ?? "";
+            Console.Write("Comment: ");
+            user.Comment = Console.ReadLine() ?? "";
 
 
             await UserService.SaveToDatabaseAsync(user);
@@ -176,7 +177,7 @@ namespace AssignmentDatabase.Services
 
         }
 
-        public  async Task AddNewCommentAsync()
+        public async Task AddNewCommentAsync()
         {
             Console.Write("Write Email of ticket user: ");
             
@@ -206,18 +207,27 @@ namespace AssignmentDatabase.Services
 
                     await UserService.AddCommentAsync(_user);
 
-                    //_user.Comment = Console.ReadLine() ?? null!;
+                    Console.WriteLine($"Modified at: {_user.ModifiedDate}".ToString());
+                    Console.WriteLine($" Comment  '{_user.Comment}' Has been added to the ticket. Press a button to continue ");
+                    Console.ReadKey();
 
 
-
-                    //Console.WriteLine($"Comment :' {_user.Comment} '  has been added");
-
-                    //await UserService.AddCommentAsync(_user);
-                    //Console.ReadKey();
-
+                   
                 }
 
 
+            }
+        }
+
+        public async Task DeleteATicketAsync()
+        {
+            Console.WriteLine("Enter the emial of the user");
+
+            var _user = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(_user))
+            {
+                await UserService.DeleteTicketAsync(_user);
             }
         }
     }

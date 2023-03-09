@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -161,22 +162,42 @@ namespace AssignmentDatabase.Services
    
 
          public static async Task AddCommentAsync(UserModel user)
+        
+         {
+                var _user = await _context.Users.Include(x => x.Departments).Include(x => x.Tickets).Include(x => x.Comments).FirstOrDefaultAsync(x => x.Id == user.Id);
+
+                if (_user != null)
+                {
+                    if (!string.IsNullOrEmpty(_user.Comments.Comment))
+                    {
+                        user.ModifiedDate = (DateTime)_user.Tickets.ModifiedDate;
+                        _user.Comments.Comment = user.Comment;
+                        await _context.SaveChangesAsync();
+                         
+                           
+                    }
+                    else
+                    {
+                        Console.WriteLine("Empty");
+                        Console.ReadLine();
+                    }
+                }
+
+         }
+
+        public static async Task DeleteTicketAsync(string email)
         {
-            var _user = await _context.Users.Include(x => x.Departments).Include(x => x.Tickets).Include(x => x.Comments).FirstOrDefaultAsync(x => x.Id == user.Id);
+            var _user = await _context.Users.Include(x => x.Departments).Include(x => x.Tickets).Include(x => x.Comments).FirstOrDefaultAsync(x => x.Email == email);
+
 
             if (_user != null)
             {
-                if (!string.IsNullOrEmpty(_user.Comments.Comment))
-                {
-                    _user.Comments.Comment = user.Comment; // Derives from TicketEntity
+                _context.Remove(_user);
+                await _context.SaveChangesAsync();
 
-                   // user.ModifiedDate = (DateTime)_user.Tickets.ModifiedDate; // Derives from Usermodel, bad naming on my part.
-
-                    await _context.SaveChangesAsync();
-                }
-
+                
             }
-
         }
+
     }
 }
