@@ -38,6 +38,9 @@ namespace AssignmentDatabase.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            //When a ticket is saved, the default value is set to "New" in database.
+            //Used this article as referecne: https://stackoverflow.com/questions/20136504/how-can-set-a-default-value-constraint-with-entity-framework-6-code-first
+
             modelBuilder.Entity<TicketEntity>()
                 .Property(x => x.Status)
                 .HasDefaultValue("new");

@@ -32,8 +32,6 @@ namespace AssignmentDatabase.Services
             Console.Write("Department: ");
             user.DepartmentName = Console.ReadLine() ?? "";
 
-            Console.Write("Streetname: ");
-            user.StreetName = Console.ReadLine() ?? "";
 
             Console.Write("Postalcode: ");
             user.PostalCode = Console.ReadLine() ?? "";
@@ -48,14 +46,15 @@ namespace AssignmentDatabase.Services
             Console.Write("Text: ");
             user.TicketText = Console.ReadLine() ?? "";
 
-            //Console.Write("Status: ");
-            //user.Status = Console.ReadLine() ?? "";
+
 
             Console.Write("Comment: ");
             user.Comment = Console.ReadLine() ?? "";
 
 
             await UserService.SaveToDatabaseAsync(user);
+
+            //Status on Tickets and CreatedDate is added when the SaveChangesAsync method is callled in UserService (Check DataContext for the configuration)
         }
 
         public async Task ListAllTicketsAsync()
