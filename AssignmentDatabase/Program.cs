@@ -15,9 +15,10 @@ namespace AssignmentDatabase
                 Console.WriteLine("[1] Add new ticket");
                 Console.WriteLine("[2]  List All Tickets in database ");
                 Console.WriteLine("[3]  List a specific Ticket in database");
-                Console.WriteLine("[4]  Update Statos on a Ticket");
+                Console.WriteLine("[4]  Update Status on a Ticket");
                 Console.WriteLine("[5]  Add A comment to ticket ");
                 Console.WriteLine("[6]  Delete a Ticket");
+                Console.WriteLine("[7]  View Ticket and comment");
                 Console.Write("Choose an option:  ");
 
                 switch (Console.ReadLine())
@@ -39,7 +40,7 @@ namespace AssignmentDatabase
 
                     case "4":
                         Console.Clear();
-                       await menu.ChangeStyatusAsync();
+                       await menu.ChangeStatusAsync();
                         break;
 
                     case "5":
@@ -51,6 +52,12 @@ namespace AssignmentDatabase
                         Console.Clear();
                         await menu.DeleteATicketAsync();
                         break;
+
+                    case "7":
+                        Console.Clear();
+                        await menu.ListTicketAndCommentAsync();
+                        break;
+
                 }
             }
         }

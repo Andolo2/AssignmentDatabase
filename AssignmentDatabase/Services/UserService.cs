@@ -131,6 +131,7 @@ namespace AssignmentDatabase.Services
                     Status = _user.Tickets.Status,
                     TicketText = _user.Tickets.TicketText,
                     CreationTime = (DateTime)_user.Tickets.CreationTime,
+                    ModifiedDate = (DateTime)_user.Tickets.ModifiedDate,
                     Comment = _user.Comments.Comment
                 };
             }
@@ -170,7 +171,8 @@ namespace AssignmentDatabase.Services
                 {
                     if (!string.IsNullOrEmpty(_user.Comments.Comment))
                     {
-                        user.ModifiedDate = (DateTime)_user.Tickets.ModifiedDate;
+                    //user.ModifiedDate = (DateTime)_user.Tickets.ModifiedDate;
+                        _user.Tickets.ModifiedDate = user.ModifiedDate;
                         _user.Comments.Comment = user.Comment;
                         await _context.SaveChangesAsync();
                          
@@ -199,5 +201,42 @@ namespace AssignmentDatabase.Services
             }
         }
 
+
+
+        //GetTicketAndCommentAsync
+
+        public static async Task<UserModel> GetTicketAndCommentAsync(string email)
+        {
+            var _user = await _context.Users.Include(x => x.Departments).Include(x => x.Tickets).Include(x => x.Comments).FirstOrDefaultAsync(x => x.Email == email);
+
+            if (_user != null)
+            {
+                return new UserModel
+                {
+                    Id = _user.Id,
+                    FirstName = _user.FirstName,
+                    LastName = _user.LastName,
+                    Email = _user.Email,
+                    PhoneNumber = _user.PhoneNumber,
+                    DepartmentName = _user.Departments.DepartmentName,
+                    StreetName = _user.Departments.StreetName,
+                    PostalCode = _user.Departments.PostalCode,
+                    City = _user.Departments.PostalCode,
+                    Description = _user.Tickets.Description,
+                    Status = _user.Tickets.Status,
+                    TicketText = _user.Tickets.TicketText,
+                    CreationTime = (DateTime)_user.Tickets.CreationTime,
+                    ModifiedDate = (DateTime)_user.Tickets.ModifiedDate,
+                    Comment = _user.Comments.Comment
+                };
+            }
+            else
+            {
+                return null!;
+            }
+        }
     }
-}
+
+
+ }
+

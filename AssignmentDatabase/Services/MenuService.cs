@@ -82,9 +82,6 @@ namespace AssignmentDatabase.Services
 
                 }
 
-
-
-
             }
         }
 
@@ -108,6 +105,7 @@ namespace AssignmentDatabase.Services
                     Console.WriteLine($"Text: {_user.TicketText}");
                     Console.WriteLine($"Status: {_user.Status}");
                     Console.WriteLine($"Created at: {_user.CreationTime}".ToString());
+                    Console.WriteLine($"Last modified at: {_user.ModifiedDate}".ToString());
                     Console.WriteLine($"Comment: {_user.Comment}");
 
 
@@ -123,7 +121,7 @@ namespace AssignmentDatabase.Services
             }
         }
 
-        public async Task ChangeStyatusAsync()
+        public async Task ChangeStatusAsync()
         {
             Console.Write("Write Email of ticket user: ");
             var email = Console.ReadLine();
@@ -227,6 +225,41 @@ namespace AssignmentDatabase.Services
             if (!string.IsNullOrEmpty(_user))
             {
                 await UserService.DeleteTicketAsync(_user);
+            }
+        }
+
+        public async Task ListTicketAndCommentAsync()
+        {
+
+
+            Console.Write("Write Email of ticket user: ");
+            var email = Console.ReadLine();
+
+            if (!String.IsNullOrEmpty(email))
+            {
+                var _user = await UserService.GetSpecificTicketAsync(email);
+
+                if (_user != null)
+                {
+                    Console.WriteLine($"TicketID: {_user.Id}");
+                    Console.WriteLine($"Name: {_user.FirstName} {_user.LastName}");
+                    Console.WriteLine($"E-postadress: {_user.Email}");
+                    Console.WriteLine($"Description: {_user.Description}");
+                    Console.WriteLine($"Text: {_user.TicketText}");
+                    Console.WriteLine($"Status: {_user.Status}");
+                    Console.WriteLine($"Last modified at: {_user.ModifiedDate}".ToString());
+                    Console.WriteLine($"Comment: {_user.Comment}");
+
+
+                    Console.ReadKey();
+
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Could not find user with email:  {email} ");
+                    Console.WriteLine("");
+                }
             }
         }
     }
